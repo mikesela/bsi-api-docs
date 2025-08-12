@@ -60,7 +60,7 @@
         <p>Version v1 - Biospecimen Collection Orders API</p>
     </div>
     <div class="generation-info">
-        Generated on 2025-08-11 at 09:08:28 from swagger/v1/swagger.yaml
+        Generated on 2025-08-11 at 17:23:57 from swagger/v1/swagger.yaml
     </div>
     <div id="swagger-ui"></div>
 
@@ -548,6 +548,152 @@
                     "error": {
                       "type": "string",
                       "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/webhooks/order_status": {
+      "post": {
+        "summary": "Order Status Webhook",
+        "tags": [
+          "Webhooks"
+        ],
+        "description": "Webhook endpoint that BSI calls to notify integration partners when an order status changes.\n\n**Note:** This is an outbound webhook that BSI sends TO your system, not an endpoint you call.\n\n## Implementation Requirements\n\n- Your system must provide this endpoint to receive status updates\n- The endpoint must be publicly accessible via HTTPS\n- Implement proper authentication/security measures\n- Return a 2xx status code to acknowledge receipt\n- Handle duplicate webhook deliveries gracefully\n\n## Webhook Payload\n\nBSI will send a POST request to this endpoint whenever an order status changes, including:\n- Order creation\n- Status updates (scheduled, in progress, completed, etc.)\n- Cancellations\n- Any other status modifications\n",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "order_id": {
+                    "type": "integer",
+                    "description": "The unique identifier of the order",
+                    "example": 12345
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "The new status of the order",
+                    "example": "SCHEDULED"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Timestamp when the status was last updated",
+                    "example": "2024-01-15T10:30:00Z"
+                  },
+                  "notes": {
+                    "type": "string",
+                    "description": "Additional notes about the order or status change",
+                    "example": "Appointment scheduled for morning session",
+                    "nullable": true
+                  },
+                  "webhook_id": {
+                    "type": "string",
+                    "description": "Unique identifier for this webhook delivery (for deduplication and tracking)",
+                    "example": "webhook_20240115_143022_12345_a1b2c3d4"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Webhook received successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "received": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Webhook received successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Webhook accepted for processing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accepted": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Webhook accepted for processing"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Invalid webhook payload"
+                    },
+                    "details": {
+                      "type": "string",
+                      "example": "Missing required fields"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Invalid authentication"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to process webhook"
                     }
                   }
                 }
