@@ -60,7 +60,7 @@
         <p>Version v1 - Biospecimen Collection Orders API</p>
     </div>
     <div class="generation-info">
-        Generated on 2025-07-29 at 15:19:59 from swagger/v1/swagger.yaml
+        Generated on 2025-08-11 at 09:08:28 from swagger/v1/swagger.yaml
     </div>
     <div id="swagger-ui"></div>
 
@@ -253,6 +253,26 @@
                       "kit_product_type": {
                         "type": "string",
                         "example": "G360CDX"
+                      },
+                      "customer_order_id": {
+                        "type": "string",
+                        "description": "Customer's internal order identifier",
+                        "example": "CUST-12345"
+                      },
+                      "kit_fedex": {
+                        "type": "string",
+                        "description": "FedEx tracking number for the kit",
+                        "example": "1234567890"
+                      },
+                      "client_id": {
+                        "type": "string",
+                        "description": "Patient's client identifier",
+                        "example": "CLIENT-001"
+                      },
+                      "notes": {
+                        "type": "string",
+                        "description": "Additional notes about the order",
+                        "example": "Patient prefers morning appointments"
                       }
                     },
                     "required": [
@@ -262,7 +282,6 @@
                       "city",
                       "state",
                       "zip",
-                      "email",
                       "cell_phone",
                       "kit_product_type"
                     ]
@@ -431,6 +450,26 @@
                       "description": "Product type name",
                       "example": "G360CDX"
                     },
+                    "customer_order_id": {
+                      "type": "string",
+                      "description": "Customer's internal order identifier",
+                      "example": "CUST-12345"
+                    },
+                    "kit_fedex": {
+                      "type": "string",
+                      "description": "FedEx tracking number for the kit",
+                      "example": "1234567890"
+                    },
+                    "client_id": {
+                      "type": "string",
+                      "description": "Patient's client identifier",
+                      "example": "CLIENT-001"
+                    },
+                    "notes": {
+                      "type": "string",
+                      "description": "Order notes",
+                      "example": "Patient prefers morning appointments"
+                    },
                     "status": {
                       "type": "string",
                       "description": "Current order status",
@@ -457,11 +496,6 @@
                       "type": "string",
                       "description": "FedEx tracking number",
                       "example": "1234567890"
-                    },
-                    "notes": {
-                      "type": "string",
-                      "description": "Order notes",
-                      "example": "Patient prefers morning appointments"
                     },
                     "active": {
                       "type": "boolean",
